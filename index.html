@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ZAUBA</title>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+</head>
+<style>
+
+body{
+	margin-top: 40px;
+}
+</style>
+<body>
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-4">
+			<div class="well">
+				<h3>online users</h3>
+				<ul class="listen-group" id="users"></ul>
+
+
+			</div>
+
+		</div>
+		<div class="col-md-8">
+			<div class="chat" id="chat"></div>
+
+			<form id="messageForm">
+				<div class="form-group">
+					<label>Enter Message</label>
+					<textarea class="form-control" id="message" placeholder="Enter Message Kishan jha"></textarea><br>
+					<input type="submit" class="btn btn-primary" value="send message"/>
+
+				</div>
+
+
+			</form>
+
+
+
+
+		</div>
+
+	</div>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+<script>
+	$(function(){
+		var socket = io.connect();
+		var $messageForm = $('#messageForm');
+		var $message = $('#message');
+		var $chat = $('#chat');
+
+		$messageForm.submit(function(e){
+
+			e.preventDefault();
+
+			socket.emit('send message',$message.val());
+			$message.val(''); 
+		});
+
+
+		socket.on('new message',function(data){
+			$chat.append('<div class="well"> ' +data.msg+'</div>');
+		});
+	});
+
+</script>
+
+
+
+</body>
+</html>
